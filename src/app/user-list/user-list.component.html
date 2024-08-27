@@ -1,0 +1,30 @@
+<div [ngSwitch]="users">
+    <div *ngSwitchCase="'admin'">Admin Dashboard</div>
+    <div *ngSwitchCase="'user'">User Dashboard</div>
+    <div *ngSwitchDefault>Guest View</div>
+</div>
+
+<style>
+    .test {
+        color: red;
+        background-color: blue;
+    }
+    </style>
+    
+    <div [ngStyle]="{'color': red ? 'background-color' : 'blue'}">
+      Status ok
+    </div>
+
+
+    <!-- user-list.component.html -->
+<ul>
+    <li *ngFor="let user of users">
+      <app-user-detail [user]="user"></app-user-detail>
+      <app-delete-button (delete)="deleteUser(user.id)"></app-delete-button>
+        {{user.address.street}}
+    </li>
+    
+</ul>
+
+  <app-search (searchChange)="onSearchChange($event)"></app-search>
+  {{searchText}}
