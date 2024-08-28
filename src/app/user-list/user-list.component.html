@@ -4,27 +4,36 @@
     <div *ngSwitchDefault>Guest View</div>
 </div>
 
-<style>
-    .test {
-        color: red;
-        background-color: blue;
-    }
-    </style>
-    
-    <div [ngStyle]="{'color': red ? 'background-color' : 'blue'}">
-      Status ok
-    </div>
 
+ 
 
+<app-search (searchChange)="onSearchChange($event)"></app-search>
     <!-- user-list.component.html -->
-<ul>
-    <li *ngFor="let user of users">
+<ul style="list-style-type: none; display: flex;  flex-direction: row;  flex-wrap: wrap;  justify-content: center;  align-items: center;  align-content: center;">
+    <li *ngFor="let user of filteredUsers" style="display: flex;  flex-direction: column;  justify-content: center;  align-items: center;  align-content: center;  border: 1px solid black;  border-radius: 20px;  box-shadow: 5px 10px 8px grey;  margin: 10px;  padding: 10px;">
       <app-user-detail [user]="user"></app-user-detail>
       <app-delete-button (delete)="deleteUser(user.id)"></app-delete-button>
         {{user.address.street}}
-    </li>
-    
+      <p>Original: {{ user.name }}</p>
+      <p>Uppercase: {{ user.name | uppercase }}</p>
+      <p>Lowercase: {{ user.name | lowercase }}</p>
+
+      <p>Original date: {{ testDate }}</p>
+      <p>Formatted date: {{ testDate | date:'longDate' }}</p>
+      <p>Time only: {{ testDate | date:'shortTime' }}</p>
+
+      <p>Decimal number: {{ 3.14159 | number:'1.8' }}</p>
+
+</ul>
+<app-search (searchChange)="onSearchChange($event)"/>
+<ul>
+  @for(user of users | filter:searchText; track user.email) {
+  }
 </ul>
 
-  <app-search (searchChange)="onSearchChange($event)"></app-search>
-  {{searchText}}
+
+ 
+
+
+ 
+

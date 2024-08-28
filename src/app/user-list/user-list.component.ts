@@ -5,46 +5,45 @@ import { DeleteButtonComponent } from '../delete-button/delete-button.component'
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { User } from './User.type';
 import { HttpClient } from '@angular/common/http';
+import { FilterPipe } from '../filter.pipe';
+
 @Component({
 	selector: 'app-user-list',
 	standalone: true,
-	imports: [CommonModule, UserDetailComponent, SearchComponent, DeleteButtonComponent,HttpClient],
+	imports: [CommonModule, FilterPipe, UserDetailComponent, SearchComponent, DeleteButtonComponent],
 	templateUrl: './user-list.component.html',
 	styleUrl: './user-list.component.css'
-
 })
+
+
 export class UserListComponent implements OnInit {
 	users: User[] = [];
 	searchText = "";
-
+	testDate = new Date();
+	filteredUsers: User[] = [];
+	apiUrl = "https://jsonplaceholder.typicode.com/users";
 	constructor(private http: HttpClient) {
 		
 	}
-
 	ngOnInit(): void {
-		this.http.get<User[]>('https://jsonplaceholder.typicode.com/users').subscribe((data) => {
-			this.users = data;
+		this.http.get<User[]>(this.apiUrl).subscribe({
+			next: (data) => {
+				this.users = this.filteredUsers = data;
+			},
+			error: (error) => {
+				console.error(error);
+			},
 		});
-		
 	}
-	// async ngOnInit(): Promise<void> {
-	// 	try {
-	// 		const response = await fetch('https://jsonplaceholder.typicode.com/users');
-	// 		if (!response.ok) {
-	// 			throw new Error(response.statusText);
-	// 		}
-	// 		this.users = await response.json();
-	// 	} catch (error) {
-	// 		console.error(error);
-	// 	}
-	// }
 
 	deleteUser(userId: number) {
 		// Suppression d'un utilisateur
 		this.users = this.users.filter(user => user.id !== userId);
+		this.filteredUsers = this.filteredUsers.filter(user => user.id !== userId);
 	}
-	onSearchChange(search: string) {
-		console.log('SEARCH', search);
 
+	onSearchChange(search: string) {
+		this.filteredUsers = this.users.filter((user) =>
+			user.name.toLowerCase().includes(search.toLowerCase()),);
 	}
 }

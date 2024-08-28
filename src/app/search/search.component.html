@@ -1,12 +1,15 @@
-<p>search works!</p>
-<div>
-<input 
-    type ="text"
-    placeholder="recherche"
-    [(ngModel)]="searchText"
-    (input)="onInput()"
-/>
-<button (click)="cleatInput()">❌</button>
-
-
-</div>
+<div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <span class="input-group-text">Rechercher</span>
+    </div>
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Rechercher"
+      [(ngModel)]="searchText"
+      (input)="sendSearchCriteria()"
+    />
+    <div class="input-group-append">
+      <button class="btn btn-outline-danger" type="button" (click)="clearInput()">✖️</button>
+    </div>
+  </div>

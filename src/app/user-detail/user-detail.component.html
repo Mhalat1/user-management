@@ -1,7 +1,13 @@
 <!-- user-detail.component.html -->
- @if (user) {
+@if (user) {
 
-  <h3>Détails de l'utilisateur</h3>
-  <p>Nom : {{ user.name }}</p>
-  <p>Email : {{ user.email }}</p>
+<h3>Détails de l'utilisateur</h3>
+ <a class="nav-link" [routerLink]="['users',user.id]">
+    <span style="color:blue">
+        {{ user.name }}
+    </span>
+</a>
+
+<p>Email : {{ user.email }}</p>
+
 }
